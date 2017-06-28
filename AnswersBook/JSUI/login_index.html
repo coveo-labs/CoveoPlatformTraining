@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0,  maximum-scale=1.0, user-scalable=0"/>
+    <title>JSUI tutorial</title>
+    <link rel="stylesheet" href="./res/main.css"/>
+
+    <script src="/coveo-search-ui/bin/js/CoveoJsSearch.Dependencies.js"></script>
+    <script src="/coveo-search-ui/bin/js/CoveoJsSearch.min.js"></script>
+    <script src="/coveo-search-ui/bin/js/templates/templatesNew.js"></script>
+    <link rel="stylesheet" href="/coveo-search-ui/bin/css/CoveoFullSearchNewDesign.css"/>
+
+    <script>
+      // get token from cookies
+      var accessToken = '', email = '';
+      if ( /\baccessToken=([\.\w-]+)/.test(document.cookie) ) {
+        accessToken = RegExp.$1;
+      }
+
+      document.addEventListener('DOMContentLoaded', function () {
+        Coveo.SearchEndpoint.endpoints['default'] = new Coveo.SearchEndpoint({
+          restUri: 'https://platform.cloud.coveo.com/rest/search',
+          accessToken: accessToken
+        });
+
+        Coveo.init(document.querySelector('#search'));
+
+        // show user email in header
+        if ( /\blogin=([\.%@\w-]+)/.test(document.cookie) ) {
+          email = RegExp.$1;
+          document.getElementById('user').innerText = decodeURIComponent(email);
+        }
+      });
+
+      function logout() {
+        document.cookie = 'login=; expires=Thu, 01-Jan-1970 00:00:01 GMT;';
+        document.cookie = 'accessToken=; expires=Thu, 01-Jan-1970 00:00:01 GMT;';
+        window.location = '/';
+      }
+    </script>
+  </head>
+  <body>
+    <header>
+      <div class="logout">
+        <i id="user"></i>
+        <a href="javascript:logout()" class="logout">[logout]</a>
+      </div>
+      <div class="logos">
+        <a href="http://www.coveo.com" class="logo" title="Coveo"></a>
+      </div>
+    </header>
+
+    <div class="main-content flex1">
+
+      <div id="search" class="CoveoSearchInterface" data-enable-history="true" data-design="new">
+        <div class="coveo-search-section">
+          <div class="CoveoSearchbox"></div>
+        </div>
+
+        <div class="coveo-main-section">
+          <div class="coveo-facet-column">
+            <div class="CoveoFacet" data-title="Source" data-field="@source"></div>
+            <div class="CoveoFacet" data-title="Type" data-field="@objecttype"></div>
+            <div class="CoveoFacet" data-title="FileType" data-field="@filetype" ></div>
+            <div class="CoveoFacet" data-title="Author" data-field="@author"></div>
+            <div class="CoveoFacet" data-title="Year" data-field="@year"></div>
+            <div class="CoveoFacet" data-title="Month" data-field="@month"></div>
+          </div>
+
+          <div class="coveo-results-column">
+            <div class="coveo-results-header">
+              <div class="coveo-summary-section">
+                <span class="CoveoQuerySummary"></span>
+                <span class="CoveoQueryDuration"></span>
+              </div>
+              <div class="coveo-sort-section">
+                <span class="CoveoSort" data-sort-criteria="relevancy" data-caption="Relevance"></span>
+                <span class="CoveoSort" data-sort-criteria="date descending,date ascending" data-caption="Date"></span>
+              </div>
+            </div>
+
+
+            <div class="CoveoResultList" data-wait-animation="fade" data-auto-select-fields-to-include="true">
+              <script type="text/html" data-condition="raw.connectortype &amp;&amp; raw.connectortype.toLowerCase() == &quot;wordpress&quot;" class="result-template" id="Secured content from Wordpress">
+<div class="coveo-result-frame" style="border-left: 4px solid red">
+    <div class="coveo-result-row">
+        <div class="coveo-result-cell" style="padding-left:15px;">
+            <div class="coveo-result-row">
+                <div class="coveo-result-cell">
+                    <span class="CoveoFieldValue" style="float: right" data-field="@date" data-helper="date"></span>
+                    <span class="CoveoIcon" data-value="coveo-sprites-authenticate"></span>
+                    <a class="CoveoResultLink"> </a>
+                </div>
+            </div>
+            <div class="coveo-result-row">
+                <div class="coveo-result-cell">
+                    <span class="CoveoExcerpt"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>            </script>
+
+              <script id="MyTemplate" type="text/underscore" class="result-template">
+                <div class="coveo-result-frame" style="padding-left: 10px;border-left: 4px solid <%= (raw.source === 'MC+A' ? '#36AADE' : '#E94F37')%>">
+                  <div class="coveo-result-row">
+                    <div class="coveo-result-cell">
+                      <span class="CoveoFieldValue" data-field="@sysdate" data-helper="date" style="float: right;"></span>
+                      <a class="CoveoResultLink"></a><br />
+                    </div>
+                  </div>
+                  <div class="coveo-result-row">
+                    <div class="coveo-result-cell">
+                      <span class="CoveoExcerpt"></span>
+                    </div>
+                  </div>
+                  <div class="coveo-result-row">
+                    <div class="coveo-result-cell">
+                      <table class="CoveoFieldTable">
+                        <tbody>
+                          <tr data-field="@sysauthor" data-caption="Author"></tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </script>
+            </div>
+
+            <div class="CoveoPager"></div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <footer>
+      <a href="http://www.coveo.com/en/privacy">Privacy Policy</a> | © 2017 Coveo Solutions Inc.<span class="subfooter_br"> All Rights Reserved.</span>
+    </footer>
+
+  </body>
+</html>

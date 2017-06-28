@@ -1,0 +1,69 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+a, a:visited {
+  color: #009DDC !important;
+}
+
+header {
+  background: #296896 url(res/background.png) no-repeat left bottom;
+}
+
+header .logout {
+  float: right;
+}
+header .logout, header #user {
+  padding: 0 20px;
+  line-height: 65px;
+  color: #fff;
+  font-family: monospace;
+  font-size: large;
+}
+
+header .logos {
+  padding: 12px 20px 20px;
+  width: 20%;
+  display: flex;
+  align-items: baseline;
+}
+
+header .logos .logo {
+  width: 90px;
+  height: 33px;
+  background: transparent url(res/logo.png) no-repeat left top;
+  transition: none;
+  background-size: contain;
+  min-width: 70px;
+}
+
+.main-content {
+  overflow: auto;
+  flex: 1;
+  padding: 50px;
+}
+.place-holder {
+  padding: 20px;
+  text-align: center;
+}
+
+form, form input, form button {
+  font-size: 16pt;
+}
+
+footer {
+  padding: 28px 0;
+  font-size: 12px;
+  color: #e4e8eb;
+  background-color: #263e55;
+  font-family: sans-serif;
+  vertical-align: middle;
+  text-align: center;
+}
